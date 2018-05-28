@@ -1,0 +1,43 @@
+{
+  "name": "homie-esp8266-setup",
+  "version": "1.0.0",
+  "description": "Homie ESP8266 Setup UI",
+  "author": "timpur <timothy@purchas.com>",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "build-report": "npm run build -- --env.report",
+    "start": "webpack-dev-server --config webpack.dev.js"
+  },
+  "dependencies": {
+    "decko": "^1.2.0",
+    "linkstate": "^1.1.1",
+    "preact": "^8.2.9",
+    "sierra-library": "^2.0.0",
+    "unfetch": "^3.0.0",
+    "unistore": "^3.0.4"
+  },
+  "devDependencies": {
+    "base64-inline-loader": "^1.1.1",
+    "compression-webpack-plugin": "^1.1.11",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "html-webpack-inline-source-plugin": "0.0.10",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.8.3",
+    "optimize-css-assets-webpack-plugin": "^4.0.0",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "ts-loader": "^4.2.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.8.1",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^4.5.0",
+    "webpack-api-mocker": "^1.5.1",
+    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.2"
+  }
+}
