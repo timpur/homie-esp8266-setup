@@ -1,10 +1,12 @@
 import { h, FunctionalComponent } from "preact";
 
+import { Colour, Style } from "./constants";
+
 interface IProps {
   lable: string;
   value: string;
-  lableColour?: string;
-  valueColour?: string;
+  lableColour?: Colour | Style;
+  valueColour?: Colour | Style;
 }
 
 const BadgeLable: FunctionalComponent<IProps> = (props: IProps) => {
@@ -17,8 +19,8 @@ const BadgeLable: FunctionalComponent<IProps> = (props: IProps) => {
 };
 
 BadgeLable.defaultProps = {
-  lableColour: "primary",
-  valueColour: "secondary"
+  lableColour: "default",
+  valueColour: "primary"
 };
 
 export default BadgeLable;

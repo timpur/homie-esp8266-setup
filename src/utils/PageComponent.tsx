@@ -1,4 +1,4 @@
-import { h, Component, RenderableProps } from "preact";
+import { h, Component } from "preact";
 import { bind } from "decko";
 
 import { Button } from "../components/ui";
@@ -10,7 +10,7 @@ export interface IPageProps {
 }
 
 export abstract class PageComponent<PropType extends IPageProps, StateType> extends Component<PropType, StateType> {
-  title: string;
+  private title: string;
 
   constructor(props: PropType, title: string) {
     super(props);
@@ -21,19 +21,26 @@ export abstract class PageComponent<PropType extends IPageProps, StateType> exte
   onBack() {
     if (this.props.onBack) this.props.onBack();
   }
-
   @bind
   onNext() {
     if (this.props.onNext) this.props.onNext();
   }
+  @bind
+  disableBackButton(): boolean {
+    return false;
+  }
+  @bind
+  disableNextButton(): boolean {
+    return false;
+  }
 
-  abstract renderPage(props: RenderableProps<PropType>, state: Readonly<StateType>): JSX.Element;
+  abstract renderPage(): JSX.Element;
 
-  render(props: RenderableProps<PropType>, state: Readonly<StateType>) {
+  render() {
     return (
       <div>
         {this.renderTitle()}
-        {this.renderPage(props, state)}
+        {this.renderPage()}
         {this.renderNavButtons()}
       </div>
     );
@@ -50,8 +57,8 @@ export abstract class PageComponent<PropType extends IPageProps, StateType> exte
   renderNavButtons() {
     return (
       <div>
-        <Button text="Back" onClick={this.onBack} />
-        <Button text="Next" onClick={this.onNext} />
+        <Button text="Back" onClick={this.onBack} disable={this.disableBackButton()} />
+        <Button text="Next" onClick={this.onNext} disable={this.disableNextButton()} />
       </div>
     );
   }

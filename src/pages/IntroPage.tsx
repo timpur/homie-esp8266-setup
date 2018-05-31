@@ -4,8 +4,9 @@ import { connect } from "unistore/preact";
 
 import { TStore } from "../store";
 import { PageComponent, IPageProps } from "../utils/PageComponent";
-import HomieDevice, { IHomieData } from "../utils/HomieDevice";
-import { Button, BadgeLable, Loading } from "../components/ui";
+import { HomieDevice, IHomieData } from "../utils/HomieDevice";
+import { Button, BadgeLable, Loading, Text } from "../components/ui";
+import { Grid, Row, Column } from "../components/ui/grid";
 
 
 interface IProps extends IPageProps {
@@ -17,37 +18,75 @@ interface IState {
 }
 
 class IntroPage extends PageComponent<IProps, IState> {
+  homieDevice: HomieDevice;
   constructor(props: IProps) {
-    super(props, "Intro Page");
+    super(props, "Lets get you Connected");
+    this.homieDevice = new HomieDevice(props.homieData);
   }
 
   @bind
   componentDidMount() {
-    const homieDevice = HomieDevice(this.props.homieData);
-    homieDevice.findDevice()
+    this.homieDevice.findDevice()
       .then(() => this.forceUpdate());
   }
 
   @bind
   getDeviceInfo() {
-    const homieDevice = HomieDevice(this.props.homieData);
-    homieDevice.getInfo()
+    this.homieDevice.getInfo()
       .then(() => this.forceUpdate());
   }
 
+  @bind
+  disableBackButton() {
+    return true;
+  }
+
+  @bind
+  disableNextButton() {
+    return !this.homieDevice.hasDeviceInfo;
+  }
+
   renderPage() {
-    const homieDevice = HomieDevice(this.props.homieData);
     return (
       <div>
-        <Loading enable={false} />
-        <BadgeLable lable="Lable" value="value" />
-        <BadgeLable lable="Lable" value="value" />
-        <p>Intro Page Content</p>
-        <p>Device Status: {homieDevice.status ? "Online" : "Offline"}</p>
-        <Button text="Load Device Info" onClick={this.getDeviceInfo} />
-        <p>Device Id: {homieDevice.info.hardware_device_id}</p>
+        <Loading show={!this.homieDevice.status} typeBar />
+        <BadgeLable
+          lable="Device Status"
+          value={this.homieDevice.status ? "Online" : "Offline"}
+          valueColour={this.homieDevice.status ? "success" : "error"}
+        />
+        <Button text="Load Device Info" onClick={this.getDeviceInfo} disable={!this.homieDevice.status} />
+        {this.homieDevice.hasDeviceInfo && ([
+          <Text text="Device Info" size="big" />,
+          <Grid>
+            <Row alignments={{ center: "xs" }}>
+              <Column columns={{ xs: "6" }}>
+                <BadgeLable lable="Hardware ID" value={this.homieDevice.deviceInfo.hardware_device_id} />
+                <BadgeLable lable="Homie ESP8266 Version" value={this.homieDevice.deviceInfo.homie_esp8266_version} />
+              </Column>
+              <Column columns={{ xs: "6" }}>
+                <BadgeLable lable="Homie Version" value={this.homieDevice.deviceInfo.homie_version} />
+                <BadgeLable lable="Configuration State" value={this.homieDevice.deviceInfo.device_config_state ? "Okay" : "Error"} />
+              </Column>
+            </Row>
+            <Row>
+              <Column>
+                <Text text="Nodes" size="big" />
+                {this.homieDevice.deviceInfo.nodes.map(node => {
+                  return (
+                    <BadgeLable lable={node.id} value={node.type} />
+                  );
+                })}
+              </Column>
+            </Row>
+          </Grid>
+        ])}
       </div>
     );
+  }
+  render() {
+    this.homieDevice.update(this.props.homieData);
+    return super.render();
   }
 }
 

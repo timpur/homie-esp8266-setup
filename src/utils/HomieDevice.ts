@@ -14,7 +14,9 @@ export interface IHomieDeviceInfo {
   homie_esp8266_version: string;
   device_config_state: string;
   device_config_state_error: string;
-  firmware: string;
+  firmware: { name: string; version: string; };
+  nodes: Array<{ id: string; type: string; }>;
+  settings: Array<{ name: string; description: string; type: string; required: boolean; default: any; }>;
 }
 
 export const actions = {
@@ -54,10 +56,15 @@ export class HomieDevice {
   get status() { return this.homieData.status; }
   set status(value: boolean) { actions.setStatus(value); }
 
-  get info() { return this.homieData.deviceInfo; }
-  set info(value: IHomieDeviceInfo) { actions.setDeviceInfo(value); }
+  get deviceInfo() { return this.homieData.deviceInfo; }
+  set deviceInfo(value: IHomieDeviceInfo) { actions.setDeviceInfo(value); }
+  get hasDeviceInfo() { return !!this.homieData.deviceInfo.hardware_device_id; }
 
   constructor(homieData: IHomieData) {
+    this.homieData = homieData;
+  }
+
+  update(homieData: IHomieData) {
     this.homieData = homieData;
   }
 
@@ -91,9 +98,7 @@ export class HomieDevice {
     return fetch(`${this.url}/device-info`)
       .then((res) => res.json() as Promise<IHomieDeviceInfo>)
       .then((deviceInfo) => {
-        this.info = deviceInfo;
+        this.deviceInfo = deviceInfo;
       });
   }
 }
-
-export default function (homieData: IHomieData) { return new HomieDevice(homieData); }

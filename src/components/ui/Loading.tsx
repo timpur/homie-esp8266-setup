@@ -1,18 +1,18 @@
 import { h, FunctionalComponent } from "preact";
 
 interface IProps {
-  enable?: boolean;
+  show?: boolean;
   typeBar?: boolean;
 }
 
 const Loading: FunctionalComponent<IProps> = (props: IProps) => {
   if (props.typeBar) {
     return (
-      props.enable && <div class="loading-bar"></div>
+      props.show && <div class="loading-bar"></div>
     );
   } else {
     return (
-      props.enable && <div class="loading-spinner">
+      props.show && <div class="loading-spinner">
         <span></span>
         <span></span>
         <span></span>
@@ -23,7 +23,7 @@ const Loading: FunctionalComponent<IProps> = (props: IProps) => {
 };
 
 Loading.defaultProps = {
-  enable: false,
+  show: false,
   typeBar: false
 };
 
