@@ -1,6 +1,7 @@
 import { h } from "preact";
 import createStore, { Store } from "unistore";
 import { Provider } from "unistore/preact";
+// import * as devtools from 'unistore/devtools';
 
 import { IHomieData, IHomieDeviceInfo } from "./utils/HomieDevice";
 
@@ -19,7 +20,7 @@ const initalState: IStoreState = {
 
 export const store: TStore = createStore(initalState);
 
-import App from "./app";
+import App from "./App";
 export default () => (
   <Provider store={store}>
     <App />
