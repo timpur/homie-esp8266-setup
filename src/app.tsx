@@ -12,14 +12,17 @@ interface IProps { }
 interface IState { }
 
 export default class App extends Component<IProps, IState> {
+  tab: Tab;
 
   @bind
   onBack() {
     console.log("back");
+    this.tab.previousTab();
   }
   @bind
   onNext() {
     console.log("next");
+    this.tab.nextTab();
   }
 
   render() {
@@ -35,7 +38,7 @@ export default class App extends Component<IProps, IState> {
         <main class="container">
           <div class="section row center-sm">
             <div class="col-xs-12 col-sm-10 col-md-8 center-xs">
-              <Tab>
+              <Tab ref={(tab) => this.tab = tab}>
                 <TabItem id="1" title="Intro Page">
                   <IntroPage onBack={this.onBack} onNext={this.onNext} />
                 </TabItem>
@@ -46,7 +49,7 @@ export default class App extends Component<IProps, IState> {
             </div>
           </div>
         </main>
-      </div>
+      </div >
     );
   }
 }

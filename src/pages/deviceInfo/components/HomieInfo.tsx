@@ -13,7 +13,7 @@ const HomieInfo: FunctionalComponent<IProps> = (props: IProps) => {
   const { homieInfo } = props;
   return (
     <div class="background-dark">
-      <Text text="Device Info" size="big" />
+      <Text text="Device Info" size="medium" />
       <Grid>
         <Row alignments={{ center: "xs", around: "xs" }}>
           <Column columns={{ xs: "6" }}>

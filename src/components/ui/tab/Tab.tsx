@@ -4,41 +4,58 @@ import { bind } from "decko";
 import { IProps as TabItemProps } from "./TabItem";
 
 
-interface IProps { }
+interface IProps {
+  children: Array<VNode<TabItemProps>>;
+}
 interface IState {
   activeTabID: string;
 }
 
 class Tab extends Component<IProps, IState> {
 
-  @bind
-  componentDidMount() {
-    const defaultTab = this.props.children[0] as VNode<TabItemProps>;
-    this.onTabSelect(defaultTab.attributes.id);
+  get activeTabItem() {
+    return this.props.children.find(tab => tab.attributes.id === this.state.activeTabID);
   }
 
   @bind
-  onTabSelect(tabID: string) {
+  componentDidMount() {
+    const defaultTab = this.props.children[0] as VNode<TabItemProps>;
+    this.selectTab(defaultTab.attributes.id);
+  }
+
+  previousTab() {
+    const { children } = this.props;
+    const currentIndex = children.indexOf(this.activeTabItem);
+    const previousIndex = Math.max(currentIndex - 1, 0);
+    this.selectTab(children[previousIndex].attributes.id);
+  }
+  nextTab() {
+    const { children } = this.props;
+    const currentIndex = children.indexOf(this.activeTabItem);
+    const nextIndex = Math.min(currentIndex + 1, children.length - 1);
+    this.selectTab(children[nextIndex].attributes.id);
+  }
+
+  @bind
+  selectTab(tabID: string) {
     this.setState({ activeTabID: tabID });
   }
 
   render() {
-    const children = this.props.children as Array<VNode<TabItemProps>>;
-    const activeTabItem = children.find(tab => tab.attributes.id === this.state.activeTabID);
     return (
       <div>
         <div class="tabs">
-          {children.map(tab => (
+          {this.props.children.map(tab => (
             <a
               href="#"
-              class={`tab ${tab === activeTabItem ? "active" : null}`}
-              onClick={() => this.onTabSelect(tab.attributes.id)}
+              class={`tab ${tab === this.activeTabItem ? "active" : null}`}
+              onClick={() => this.selectTab(tab.attributes.id)}
             >
               {tab.attributes.title}
             </a>
           ))}
         </div>
-        {activeTabItem}
+        {this.activeTabItem}
       </div>
     );
   }
