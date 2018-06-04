@@ -1,6 +1,8 @@
 import { h, FunctionalComponent } from "preact";
 
-import { Colour, Style } from "./constants";
+import { Colour, Style } from "../constants";
+import Badge from "./Badge";
+
 
 interface IProps {
   lable: string;
@@ -11,10 +13,10 @@ interface IProps {
 
 const BadgeLable: FunctionalComponent<IProps> = (props: IProps) => {
   return (
-    <ul class="badges-list badge-lable">
-      <li class={`badges-list-item badge-${props.lableColour}`}>{props.lable}</li>
-      <li class={`badges-list-item badge-${props.valueColour}`}>{props.value}</li>
-    </ul>
+    <Badge items={[
+      { value: props.lable, colour: props.lableColour },
+      { value: props.value, colour: props.valueColour }
+    ]} />
   );
 };
 

@@ -6,6 +6,7 @@ export interface IHomieData {
   url: string;
   status: boolean;
   deviceInfo: IHomieDeviceInfo;
+  deviceConfig: IHomieDeviceConfig;
 }
 
 export interface IHomieDeviceInfo {
@@ -14,9 +15,54 @@ export interface IHomieDeviceInfo {
   homie_esp8266_version: string;
   device_config_state: string;
   device_config_state_error: string;
-  firmware: { name: string; version: string; };
-  nodes: Array<{ id: string; type: string; }>;
-  settings: Array<{ name: string; description: string; type: string; required: boolean; default: any; }>;
+  firmware: {
+    name: string;
+    version: string;
+  };
+  nodes: Array<{
+    id: string;
+    type: string;
+  }>;
+  settings: Array<{
+    name: string;
+    description: string;
+    type: string;
+    required: boolean;
+    default: any;
+  }>;
+}
+
+export interface IHomieDeviceConfig {
+  name: string;
+  device_id: string;
+  device_stats_interval: number;
+  wifi: {
+    ssid: string;
+    password: string;
+    bssid: string;
+    channel: number;
+    ip: string;
+    mask: string;
+    gw: string;
+    dns1: string;
+    dns2: string;
+  };
+  mqtt: {
+    host: string;
+    port: number;
+    base_topic: string;
+    auth: boolean;
+    username: string;
+    password: string;
+    ssl: boolean;
+    ssl_fingerprint: string;
+  };
+  ota: {
+    enable: boolean;
+  };
+  settings: {
+    [key: string]: any;
+  };
 }
 
 export const actions = {
@@ -43,6 +89,14 @@ export const actions = {
         deviceInfo
       }
     };
+  }),
+  setDeviceConfig: store.action((state: IStoreState, deviceConfig: IHomieDeviceConfig) => {
+    return {
+      homieData: {
+        ...state.homieData,
+        deviceConfig
+      }
+    };
   })
 };
 
@@ -59,6 +113,10 @@ export class HomieDevice {
   get deviceInfo() { return this.homieData.deviceInfo; }
   set deviceInfo(value: IHomieDeviceInfo) { actions.setDeviceInfo(value); }
   get hasDeviceInfo() { return !!this.homieData.deviceInfo.hardware_device_id; }
+
+  get deviceConfig() { return this.homieData.deviceConfig; }
+  set deviceConfig(value: IHomieDeviceConfig) { actions.setDeviceConfig(value); }
+  get hasDeviceConfig() { return !!this.homieData.deviceConfig.wifi; }
 
   constructor(homieData: IHomieData) {
     this.homieData = homieData;
@@ -94,11 +152,20 @@ export class HomieDevice {
   }
 
   @bind
-  getInfo(): Promise<void> {
+  getDeviceInfo(): Promise<void> {
     return fetch(`${this.url}/device-info`)
       .then((res) => res.json() as Promise<IHomieDeviceInfo>)
       .then((deviceInfo) => {
         this.deviceInfo = deviceInfo;
+      });
+  }
+
+  @bind
+  getDeviceConfig(): Promise<void> {
+    return fetch(`${this.url}/config`)
+      .then((res) => res.json() as Promise<IHomieDeviceConfig>)
+      .then((deviceConfig) => {
+        this.deviceConfig = deviceConfig;
       });
   }
 }

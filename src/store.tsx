@@ -3,7 +3,7 @@ import createStore, { Store } from "unistore";
 import { Provider } from "unistore/preact";
 // import * as devtools from 'unistore/devtools';
 
-import { IHomieData, IHomieDeviceInfo } from "./utils/HomieDevice";
+import { IHomieData, IHomieDeviceInfo, IHomieDeviceConfig } from "./utils/HomieDevice";
 
 export interface IStoreState extends Object {
   homieData: IHomieData;
@@ -14,7 +14,8 @@ const initalState: IStoreState = {
   homieData: {
     url: "http://localhost:3000",// "http://192.168.123.1",
     status: false,
-    deviceInfo: {} as IHomieDeviceInfo
+    deviceInfo: {} as IHomieDeviceInfo,
+    deviceConfig: {} as IHomieDeviceConfig
   }
 };
 

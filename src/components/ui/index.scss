@@ -1,13 +1,21 @@
-.badge-lable{
-  .badges-list-item:first-child {
+.badge-joined{
+  .badges-list-item:first-child:not(:first-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
-  .badge-lable{
+  .badges-list-item:not(:first-child):not(:last-child) {
     border-radius: 0;
   }
-  .badges-list-item:last-child {
+  .badges-list-item:last-child:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+  }
+}
+
+.badge-list {
+  text-align: initial;
+  > ul > li {
+    margin-left: 1em;
+    list-style: disc;
   }
 }

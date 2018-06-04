@@ -7,14 +7,15 @@ type Column = { [K in SCREEN_SIZE]?: COLUMN_SIZE };
 
 interface IProps {
   columns?: Column;
+  class?: string;
 }
 
 const Column: FunctionalComponent<IProps> = (props: RenderableProps<IProps>) => {
   const classes = convertColumnsToClasses(props.columns);
   return (
-    <div class={classes}>
+    <div class={`${classes} ${props.class}`} >
       {props.children}
-    </div>
+    </div >
   );
 };
 

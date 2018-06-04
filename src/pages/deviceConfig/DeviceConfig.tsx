@@ -6,7 +6,7 @@ import { TStore } from "../../store";
 import { PageComponent, IPageProps } from "../../utils/PageComponent";
 import { HomieDevice, IHomieData } from "../../utils/HomieDevice";
 import { Button } from "../../components/ui";
-import HomieInfo from "./components/HomieInfo";
+import HomieConfig from "./components/HomieConfig";
 
 
 interface IProps extends IPageProps {
@@ -15,30 +15,30 @@ interface IProps extends IPageProps {
 }
 interface IState { }
 
-class DeviceInfo extends PageComponent<IProps, IState> {
+class DeviceConfig extends PageComponent<IProps, IState> {
   homieDevice: HomieDevice;
   constructor(props: IProps) {
-    super(props, "Your Device's Info");
+    super(props, "Your Device's Current Config");
     this.homieDevice = new HomieDevice(props.homieData);
   }
 
   @bind
-  getDeviceInfo() {
-    this.homieDevice.getDeviceInfo()
+  getDeviceConfig() {
+    this.homieDevice.getDeviceConfig()
       .then(() => this.forceUpdate());
   }
 
   @bind
   disableNextButton() {
-    return !this.homieDevice.hasDeviceInfo;
+    return !this.homieDevice.hasDeviceConfig;
   }
 
   renderPage() {
     return (
       <div>
-        <Button text="Load Device Info" onClick={this.getDeviceInfo} disable={!this.homieDevice.status} />
-        {this.homieDevice.hasDeviceInfo &&
-          <HomieInfo homieInfo={this.homieDevice.deviceInfo} />
+        <Button text="Load Device Config" onClick={this.getDeviceConfig} disable={!this.homieDevice.hasDeviceInfo} />
+        {this.homieDevice.hasDeviceConfig &&
+          <HomieConfig homieConfig={this.homieDevice.deviceConfig} />
         }
       </div>
     );
@@ -50,4 +50,4 @@ class DeviceInfo extends PageComponent<IProps, IState> {
   }
 }
 
-export default connect(["homieData"])(DeviceInfo);
+export default connect(["homieData"])(DeviceConfig);

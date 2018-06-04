@@ -6,12 +6,13 @@ type Alignment = { [K in ALIGNMENT]?: SCREEN_SIZE };
 
 interface IProps {
   alignments?: Alignment;
+  class?: string;
 }
 
 const Row: FunctionalComponent<IProps> = (props: RenderableProps<IProps>) => {
   const classes = convertAlignmentsToClasses(props.alignments);
   return (
-    <div class={`row ${classes}`}>
+    <div class={`row ${classes} ${props.class}`}>
       {props.children}
     </div>
   );

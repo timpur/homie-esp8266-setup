@@ -5,7 +5,8 @@ import { connect } from "unistore/preact";
 import { TStore } from "../../store";
 import { PageComponent, IPageProps } from "../../utils/PageComponent";
 import { HomieDevice, IHomieData } from "../../utils/HomieDevice";
-import { BadgeLable, Loading } from "../../components/ui";
+import { Loading } from "../../components/ui";
+import { BadgeLable } from "../../components/ui/badge";
 
 
 interface IProps extends IPageProps {
@@ -29,7 +30,7 @@ class IntroPage extends PageComponent<IProps, IState> {
 
   @bind
   getDeviceInfo() {
-    this.homieDevice.getInfo()
+    this.homieDevice.getDeviceInfo()
       .then(() => this.forceUpdate());
   }
 
