@@ -31,11 +31,11 @@ const proxy = {
   },
   'GET /networks': {
     "networks": [
-      { "ssid": "Network_2", "rssi": -82, "encryption": "wep" },
-      { "ssid": "Network_1", "rssi": -57, "encryption": "wpa" },
-      { "ssid": "Network_3", "rssi": -65, "encryption": "wpa2" },
-      { "ssid": "Network_5", "rssi": -94, "encryption": "none" },
-      { "ssid": "Network_4", "rssi": -89, "encryption": "auto" }
+      { "ssid": "Network_1", "bssid": "ma:c0:0a:dd:re:ss:", "rssi": -82, "signal": 40, "encryption": "wep" },
+      { "ssid": "Network_2", "bssid": "ma:c0:0a:dd:re:ss:", "rssi": -57, "signal": 70, "encryption": "wpa" },
+      { "ssid": "Network_3", "bssid": "ma:c0:0a:dd:re:ss:", "rssi": -65, "signal": 60, "encryption": "wpa2" },
+      { "ssid": "Network_5", "bssid": "ma:c0:0a:dd:re:ss:", "rssi": -94, "signal": 10, "encryption": "none" },
+      { "ssid": "Network_4", "bssid": "ma:c0:0a:dd:re:ss:", "rssi": -89, "signal": 35, "encryption": "auto" }
     ]
   },
   'GET /config': {

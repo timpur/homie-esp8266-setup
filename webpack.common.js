@@ -24,6 +24,15 @@ module.exports = {
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: 'base64-inline-loader?limit=1000&name=[name].[ext]'
+      },
+      {
+        test: /\.woff2/,
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 50000,
+          },
+        },
       }
     ]
   },

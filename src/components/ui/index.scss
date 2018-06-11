@@ -13,9 +13,24 @@
 }
 
 .badge-list {
-  text-align: initial;
   > ul > li {
     margin-left: 1em;
     list-style: disc;
   }
+}
+
+// .grid {
+//   .row {
+//     .column{
+//       .content{
+//       }
+//     }
+//   }
+// }
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('/assets/fontawesome.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }

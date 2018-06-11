@@ -13,8 +13,10 @@ interface IProps {
 const Column: FunctionalComponent<IProps> = (props: RenderableProps<IProps>) => {
   const classes = convertColumnsToClasses(props.columns);
   return (
-    <div class={`${classes} ${props.class}`} >
-      {props.children}
+    <div class={`column ${classes} ${props.class}`} >
+      <div class="content">
+        {props.children}
+      </div>
     </div >
   );
 };

@@ -7,6 +7,7 @@ export interface IHomieData {
   status: boolean;
   deviceInfo: IHomieDeviceInfo;
   deviceConfig: IHomieDeviceConfig;
+  deviceNetworks: Array<IHomieDeviceNetwork>;
 }
 
 export interface IHomieDeviceInfo {
@@ -34,28 +35,28 @@ export interface IHomieDeviceInfo {
 
 export interface IHomieDeviceConfig {
   name: string;
-  device_id: string;
-  device_stats_interval: number;
+  device_id?: string;
+  device_stats_interval?: number;
   wifi: {
     ssid: string;
     password: string;
-    bssid: string;
-    channel: number;
-    ip: string;
-    mask: string;
-    gw: string;
-    dns1: string;
-    dns2: string;
+    bssid?: string;
+    channel?: number;
+    ip?: string;
+    mask?: string;
+    gw?: string;
+    dns1?: string;
+    dns2?: string;
   };
   mqtt: {
     host: string;
-    port: number;
-    base_topic: string;
-    auth: boolean;
-    username: string;
-    password: string;
-    ssl: boolean;
-    ssl_fingerprint: string;
+    port?: number;
+    base_topic?: string;
+    auth?: boolean;
+    username?: string;
+    password?: string;
+    ssl?: boolean;
+    ssl_fingerprint?: string;
   };
   ota: {
     enable: boolean;
@@ -63,6 +64,14 @@ export interface IHomieDeviceConfig {
   settings: {
     [key: string]: any;
   };
+}
+
+export interface IHomieDeviceNetwork {
+  ssid: string;
+  bssid: string;
+  rssi: number;
+  signal: number;
+  encryption: "wep" | "wpa" | "wpa2" | "none" | "auto";
 }
 
 export const actions = {
@@ -97,6 +106,14 @@ export const actions = {
         deviceConfig
       }
     };
+  }),
+  setDeviceNetworks: store.action((state: IStoreState, deviceNetworks: Array<IHomieDeviceNetwork>) => {
+    return {
+      homieData: {
+        ...state.homieData,
+        deviceNetworks
+      }
+    };
   })
 };
 
@@ -118,6 +135,10 @@ export class HomieDevice {
   set deviceConfig(value: IHomieDeviceConfig) { actions.setDeviceConfig(value); }
   get hasDeviceConfig() { return !!this.homieData.deviceConfig.wifi; }
 
+  get deviceNetworks() { return this.homieData.deviceNetworks; }
+  set deviceNetworks(value: Array<IHomieDeviceNetwork>) { actions.setDeviceNetworks(value); }
+  get hasDeviceNetworks() { return !this.homieData.deviceNetworks.length; }
+
   constructor(homieData: IHomieData) {
     this.homieData = homieData;
   }
@@ -127,45 +148,51 @@ export class HomieDevice {
   }
 
   @bind
-  findDevice(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      const checkForDevice = () => {
-        this.heatBeat()
-          .then((status) => {
-            if (status) resolve();
-            else checkForDevice();
-          });
-      };
-      checkForDevice();
-    });
+  async findDevice() {
+    const checkForDevice = async () => {
+      const status = await this.heatBeat();
+      if (status) return;
+      else checkForDevice();
+    };
+    await checkForDevice();
   }
 
   @bind
-  heatBeat(): Promise<boolean> {
-    return fetch(`${this.url}/heart`)
-      .catch(() => ({ ok: false } as Response))
-      .then((res) => res.ok)
-      .then((status) => {
-        this.status = status;
-        return status;
-      });
+  async heatBeat() {
+    try {
+      const res = await fetch(`${this.url}/heart`);
+      const status = res.ok;
+      this.status = status;
+      return status;
+    } catch (error) {
+      return false;
+    }
   }
 
   @bind
-  getDeviceInfo(): Promise<void> {
-    return fetch(`${this.url}/device-info`)
-      .then((res) => res.json() as Promise<IHomieDeviceInfo>)
-      .then((deviceInfo) => {
-        this.deviceInfo = deviceInfo;
-      });
+  async getDeviceInfo() {
+    const res = await fetch(`${this.url}/device-info`);
+    const deviceInfo = await (res.json() as Promise<IHomieDeviceInfo>);
+    this.deviceInfo = deviceInfo;
   }
 
   @bind
-  getDeviceConfig(): Promise<void> {
-    return fetch(`${this.url}/config`)
-      .then((res) => res.json() as Promise<IHomieDeviceConfig>)
-      .then((deviceConfig) => {
-        this.deviceConfig = deviceConfig;
-      });
+  async getDeviceConfig() {
+    const res = await fetch(`${this.url}/config`);
+    const deviceConfig = await (res.json() as Promise<IHomieDeviceConfig>);
+    this.deviceConfig = deviceConfig;
   }
+
+  @bind
+  async getDeviceNetworks() {
+    type Response = { networks: Array<IHomieDeviceNetwork> };
+    const res = await fetch(`${this.url}/networks`);
+    const deviceNetworks = await (res.json() as Promise<Response>);
+    this.deviceNetworks = deviceNetworks.networks;
+  }
+
+  // @bind
+  // sendConfig() {
+
+  // }
 }

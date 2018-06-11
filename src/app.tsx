@@ -1,29 +1,43 @@
 import { h, Component } from "preact";
 import { bind } from "decko";
+import { connect } from "unistore/preact";
 
+import { IStoreState } from "./store";
 import { Tab, TabItem } from "./components/ui/tab";
 // import * as homieESPImage frowm "./assets/images/homie-esp8266.png";
 
 import IntroPage from "./pages/introPage/IntroPage";
-import DeviceInfo from "./pages/deviceInfo/DeviceInfo";
-import DeviceConfig from "./pages/deviceConfig/DeviceConfig";
+import DeviceInfoPage from "./pages/deviceInfoPage/DeviceInfoPage";
+import DeviceConfig from "./pages/deviceConfigPage/DeviceConfigPage";
+import WifiSettingsPage from "./pages/WifiSettingsPage/WifiSettingsPage";
 
 
-interface IProps { }
+interface IProps {
+  activeTabID: string;
+  setActiveTab: (tabID: string) => void;
+}
 interface IState { }
 
-export default class App extends Component<IProps, IState> {
+class App extends Component<IProps, IState> {
   tab: Tab;
+
+  componentDidMount() {
+    const tabID = this.tab.defaultTab();
+    this.props.setActiveTab(tabID);
+  }
 
   @bind
   onBack() {
     console.log("back");
-    this.tab.previousTab();
+    const tabID = this.tab.previousTab();
+    this.props.setActiveTab(tabID);
   }
   @bind
   onNext() {
     console.log("next");
-    this.tab.nextTab();
+    const tabID = this.tab.nextTab();
+    this.props.setActiveTab(tabID);
+
   }
 
   render() {
@@ -36,26 +50,29 @@ export default class App extends Component<IProps, IState> {
             {/* <img src={homieESPImage} alt="" /> */}
           </div>
         </div>
-        <main class="container">
+        <main class="grid container">
           <div class="section row center-sm">
-            <div class="col-xs-12 col-sm-10 col-md-8 center-xs">
-              <Tab ref={(tab) => this.tab = tab}>
-                <TabItem id="intor_page" title="Intro Page">
-                  <IntroPage onBack={this.onBack} onNext={this.onNext} />
-                </TabItem>
-                <TabItem id="device_info" title="Device Info">
-                  <DeviceInfo onBack={this.onBack} onNext={this.onNext} />
-                </TabItem>
-                <TabItem id="device_config" title="Device Config">
-                  <DeviceConfig onBack={this.onBack} onNext={this.onNext} />
-                </TabItem>
-                <TabItem id="wifi_settings" title="Wifi Settings">
-                </TabItem>
-                <TabItem id="mqtt_settings" title="MQTT Settings">
-                </TabItem>
-                <TabItem id="device_settings" title="Device Settings">
-                </TabItem>
-              </Tab>
+            <div class="column col-xs-12 col-sm-10 col-md-8 center-xs">
+              <div class="content">
+                <Tab activeTabID={this.props.activeTabID} onTabClick={this.props.setActiveTab} ref={(tab) => this.tab = tab}>
+                  <TabItem id="intro_page" title="Intro Page">
+                    <IntroPage onBack={this.onBack} onNext={this.onNext} />
+                  </TabItem>
+                  <TabItem id="device_info" title="Device Info">
+                    <DeviceInfoPage onBack={this.onBack} onNext={this.onNext} />
+                  </TabItem>
+                  <TabItem id="device_config" title="Device Config">
+                    <DeviceConfig onBack={this.onBack} onNext={this.onNext} />
+                  </TabItem>
+                  <TabItem id="wifi_settings" title="Wifi Settings">
+                    <WifiSettingsPage onBack={this.onBack} onNext={this.onNext} />
+                  </TabItem>
+                  <TabItem id="mqtt_settings" title="MQTT Settings">
+                  </TabItem>
+                  <TabItem id="device_settings" title="Device Settings">
+                  </TabItem>
+                </Tab>
+              </div>
             </div>
           </div>
         </main>
@@ -63,3 +80,14 @@ export default class App extends Component<IProps, IState> {
     );
   }
 }
+
+const mapActionsToProps = {
+  setActiveTab: (state: IStoreState, tabID: string) => {
+    return {
+      ...state,
+      activeTabID: tabID
+    };
+  }
+};
+
+export default connect(["activeTabID"], mapActionsToProps)(App);

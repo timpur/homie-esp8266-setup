@@ -12,11 +12,6 @@ main {
   };
 };
 
-.icon-text {
-  font-size: 1.2em;
-  font-weight: bold;
-};
-
 .margine-1 {
   margin: 1em;
 }
@@ -35,4 +30,13 @@ main {
 }
 .padding-3 {
   padding: 3em;
+}
+
+.inital{
+  justify-content:initial;
+  text-align: initial;
+}
+
+.inline-block {
+  display: inline-block;
 }
