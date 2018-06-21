@@ -9,7 +9,8 @@ export interface IStoreState extends Object {
   activeTabID: string;
   homieData: IHomieData;
   formData: {
-    manualSSID?: boolean;
+    wifiManualSSID?: boolean;
+    wifiAditionalOptions?: boolean;
   };
   wifiFormData: IHomieDeviceConfig["wifi"];
   mqttFormData: IHomieDeviceConfig["mqtt"];

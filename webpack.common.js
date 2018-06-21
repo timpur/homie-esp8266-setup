@@ -17,20 +17,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        loader: "ts-loader",
+        test: /\.(ts|tsx)?$/,
+        loader: 'ts-loader',
         exclude: /node_modules/
       },
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
-        use: 'base64-inline-loader?limit=1000&name=[name].[ext]'
-      },
-      {
-        test: /\.woff2/,
+        test: /\.(svg|png|jpeg|woff2)$/,
         use: {
-          loader: "url-loader",
+          loader: 'url-loader',
           options: {
-            limit: 50000,
+            limit: 10000
           },
         },
       }

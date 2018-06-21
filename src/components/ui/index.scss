@@ -28,9 +28,26 @@
 //   }
 // }
 
-@font-face {
-  font-family: 'FontAwesome';
-  src: url('/assets/fontawesome.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
+input[type=checkbox] + label:before{
+  content: "✔";
+  left: 0;
+  top: 11px;
+  transform: scale(0);
+  z-index: 1;
+}
+
+.select i {
+    color: #969da6;
+    font-size: 30px;
+    font-style: normal;
+    height: 30px;
+    margin-top: -20px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    z-index: 1;
+}
+
+.form-collapse.error{
+  margin-bottom: 0;
 }

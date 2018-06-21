@@ -1,30 +1,27 @@
 import { h, FunctionalComponent } from "preact";
+import { ICommonFormProps, buildCommonFormClasses } from "./helper";
 
 
-interface IProps {
-  id: string;
-  label?: string;
-  placeholder?: string;
-  value: string;
+interface IProps extends ICommonFormProps<string> {
   options: Array<{ label?: string; value: string; }>;
-  onChange: (value: string) => void;
 }
+
 
 const Select: FunctionalComponent<IProps> = (props: IProps) => {
   return (
-    <div>
-      {props.label ? <label class="label" for={props.id}>{props.label}</label> : null}
-      <div class="select">
-        <select
-          id={props.id}
-          name={props.id}
-          placeholder={props.placeholder}
-          value={props.value}
-          onChange={(event: ElementEvent<HTMLInputElement>) => props.onChange(event.target.value)}
-        >
-          {props.options.map(item => (<option value={item.value}>{item.label || item.value}</option>))}
-        </select>
-      </div>
+    <div class={`select ${buildCommonFormClasses(props)}`}>
+      <select
+        id={props.id}
+        name={props.id}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChange={(event: ElementEvent<HTMLInputElement>) => props.onChange(event.target.value)}
+        required={props.required}
+        pattern={props.pattern}
+      >
+        {props.options.map(item => (<option value={item.value}>{item.label || item.value}</option>))}
+      </select>
+      <i>⌄</i>
     </div>
   );
 };

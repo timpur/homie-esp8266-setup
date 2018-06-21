@@ -58,7 +58,7 @@ export abstract class PageComponent<PropType extends IPageProps, StateType> exte
     return (
       <div>
         <Button text="Back" onClick={this.onBack} disable={this.disableBackButton()} />
-        <Button text="Next" onClick={this.onNext} disable={this.disableNextButton()} />
+        <Button text="Next" onClick={this.onNext} disable={this.disableNextButton()} colour="primary" />
       </div>
     );
   }

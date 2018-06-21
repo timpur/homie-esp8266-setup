@@ -11,6 +11,7 @@ export function createObjectDiff(currentObject: any, newObject: any) {
 }
 
 function diffValue(currentVal: any, newVal: any) {
+  if (valIsOneOf(currentVal, EMPTY_VALS) && valIsOneOf(newVal, EMPTY_VALS)) return undefined;
   if (!valIsOneOf(currentVal, EMPTY_VALS) && valIsOneOf(newVal, EMPTY_VALS)) return null;
   if (valIsOneOf(currentVal, EMPTY_VALS) && !valIsOneOf(newVal, EMPTY_VALS)) return newVal;
   if (typeof currentVal === "object" && typeof newVal === "object") return createObjectDiff(currentVal, newVal);

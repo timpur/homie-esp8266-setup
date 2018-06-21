@@ -3,7 +3,7 @@ import { bind } from "decko";
 import { connect } from "unistore/preact";
 
 import { TStore } from "../../store";
-import { PageComponent, IPageProps } from "../../utils/PageComponent";
+import { PageComponent, IPageProps } from "../../components/PageComponent";
 import { HomieDevice, IHomieData } from "../../utils/HomieDevice";
 import { Button } from "../../components/ui";
 import HomieInfo from "./components/HomieInfo";

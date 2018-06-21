@@ -69,3 +69,25 @@ test("Utils - createObjectDiff - diff with children", () => {
   const diff = createObjectDiff(currentConfig, newConfig);
   expect(diff).toEqual(expectedDiff);
 });
+
+test("Utils - createObjectDiff - special diff", () => {
+  const currentConfig = {
+    same: "same",
+    newer: "old",
+    removed: "removed",
+    nonExist: null
+  };
+  const newConfig = {
+    same: "same",
+    newer: "newer",
+    added: "added",
+    nonExist2: null
+  };
+  const expectedDiff = {
+    newer: "newer",
+    removed: null,
+    added: "added"
+  };
+  const diff = createObjectDiff(currentConfig, newConfig);
+  expect(diff).toEqual(expectedDiff);
+});

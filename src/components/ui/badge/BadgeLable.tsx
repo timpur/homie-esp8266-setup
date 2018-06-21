@@ -1,14 +1,14 @@
 import { h, FunctionalComponent } from "preact";
 
-import { Colour, Style } from "../constants";
+import { BadgeColour } from "../constants";
 import Badge from "./Badge";
 
 
 interface IProps {
   lable: string;
   value: string;
-  lableColour?: Colour | Style;
-  valueColour?: Colour | Style;
+  lableColour?: BadgeColour;
+  valueColour?: BadgeColour;
 }
 
 const BadgeLable: FunctionalComponent<IProps> = (props: IProps) => {

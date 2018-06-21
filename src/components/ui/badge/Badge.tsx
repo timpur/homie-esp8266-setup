@@ -1,8 +1,13 @@
 import { h, FunctionalComponent } from "preact";
 
-import { Colour, Style } from "../constants";
+import { BadgeColour, BadgeSize } from "../constants";
 
-type Item = { value: string, colour?: Colour | Style } | string;
+type Item = {
+  value: string,
+  colour?: BadgeColour,
+  size?: BadgeSize
+} | string;
+
 interface IProps {
   items: Array<Item>;
 }
@@ -27,7 +32,7 @@ function parseItems(items: Array<Item>) {
   });
 }
 
-function getDefaultColour(index: number): Colour | Style {
+function getDefaultColour(index: number): BadgeColour {
   switch (index) {
     case 0: return "default";
     case 1: return "primary";

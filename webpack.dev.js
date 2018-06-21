@@ -13,9 +13,9 @@ module.exports = merge(common, {
       {
         test: /\.scss$/,
         use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader"
+          'style-loader',
+          'css-loader',
+          'sass-loader'
         ]
       }
     ]
@@ -23,6 +23,7 @@ module.exports = merge(common, {
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
+  devtool: "source-map",
   devServer: {
     port: process.env.PORT || 3000,
     host: 'localhost',

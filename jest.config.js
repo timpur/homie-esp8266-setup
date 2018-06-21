@@ -2,7 +2,7 @@ module.exports = {
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
-  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+  "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": [
     "ts",
     "tsx",
@@ -10,5 +10,9 @@ module.exports = {
     "jsx",
     "json",
     "node"
-  ]
+  ],
+  "modulePathIgnorePatterns": [
+    "<rootDir>/dist/",
+    "<rootDir>/node_modules/"
+  ],
 }

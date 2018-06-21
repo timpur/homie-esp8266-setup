@@ -4,7 +4,7 @@ import { connect } from "unistore/preact";
 
 import { IStoreState } from "./store";
 import { Tab, TabItem } from "./components/ui/tab";
-// import * as homieESPImage frowm "./assets/images/homie-esp8266.png";
+// import * as homieESPImage from "./assets/images/homie-esp8266.png";
 
 import IntroPage from "./pages/introPage/IntroPage";
 import DeviceInfoPage from "./pages/deviceInfoPage/DeviceInfoPage";
