@@ -13,7 +13,7 @@ const Select: FunctionalComponent<IProps> = (props: IProps) => {
       <select
         id={props.id}
         name={props.id}
-        placeholder={props.placeholder}
+        placeholder={props.placeHolder}
         value={props.value}
         onChange={(event: ElementEvent<HTMLInputElement>) => props.onChange(event.target.value)}
         required={props.required}

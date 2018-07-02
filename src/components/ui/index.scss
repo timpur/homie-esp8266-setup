@@ -28,6 +28,10 @@
 //   }
 // }
 
+.input.disable {
+  opacity: .4;
+}
+
 input[type=checkbox] + label:before{
   content: "✔";
   left: 0;

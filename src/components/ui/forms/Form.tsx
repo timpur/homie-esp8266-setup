@@ -4,23 +4,30 @@ import { h, Component } from "preact";
 interface IProps {
   onValidationChange?: (isValid: boolean) => void;
 }
-interface IState {
-  isValid: boolean;
-}
+interface IState { }
 
 class Form extends Component<IProps, IState> {
   base: HTMLFormElement;
+  previouslyInError: boolean;
 
-  get isValid() {
-    if (this.base) return this.base.checkValidity();
-    return true;
+  get inError() {
+    if (this.base) return !this.base.checkValidity();
+    return false;
+  }
+
+  componentDidMount() {
+    this.checkFormInError();
   }
 
   componentDidUpdate() {
-    const isValid = this.isValid;
-    if (isValid !== this.state.isValid) {
-      this.setState({ isValid });
-      if (this.props.onValidationChange) this.props.onValidationChange(isValid);
+    this.checkFormInError();
+  }
+
+  checkFormInError() {
+    const inError = this.inError;
+    if (inError !== this.previouslyInError) {
+      this.previouslyInError = inError;
+      if (this.props.onValidationChange) this.props.onValidationChange(inError);
     }
   }
 

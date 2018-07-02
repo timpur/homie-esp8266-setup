@@ -5,24 +5,24 @@ import Badge from "./Badge";
 
 
 interface IProps {
-  lable: string;
+  label: string;
   value: string;
-  lableColour?: BadgeColour;
+  labelColour?: BadgeColour;
   valueColour?: BadgeColour;
 }
 
-const BadgeLable: FunctionalComponent<IProps> = (props: IProps) => {
+const BadgeLabel: FunctionalComponent<IProps> = (props: IProps) => {
   return (
     <Badge items={[
-      { value: props.lable, colour: props.lableColour },
+      { value: props.label, colour: props.labelColour },
       { value: props.value, colour: props.valueColour }
     ]} />
   );
 };
 
-BadgeLable.defaultProps = {
-  lableColour: "default",
+BadgeLabel.defaultProps = {
+  labelColour: "default",
   valueColour: "primary"
 };
 
-export default BadgeLable;
+export default BadgeLabel;

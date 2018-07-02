@@ -4,25 +4,32 @@ import { buildCommonFormClasses, ICommonFormProps } from "./helper";
 
 interface IStringProps extends ICommonFormProps<string> {
   type?: "text";
+  maxLength?: number;
 }
 interface INumberProps extends ICommonFormProps<number> {
   type?: "number";
+  min?: number;
+  max?: number;
 }
 type IPropsTypes = IStringProps | INumberProps;
 
 
-const Input: FunctionalComponent<IPropsTypes> = (props: IPropsTypes) => {
+const Input: FunctionalComponent<IPropsTypes> = (props: IStringProps & INumberProps) => {
   return (
     <div class={`input ${buildCommonFormClasses<string | number>(props)}`}>
       <input
         id={props.id}
         name={props.id}
-        placeholder={props.placeholder}
+        placeholder={props.placeHolder}
         value={props.value}
         onChange={(event: ElementEvent<HTMLInputElement>) => callOnChange(props, event.target.value)}
         type={props.type}
+        disabled={props.disable}
         required={props.required}
         pattern={props.pattern}
+        min={props.min}
+        max={props.max}
+        maxLength={props.maxLength}
       />
     </div>
   );

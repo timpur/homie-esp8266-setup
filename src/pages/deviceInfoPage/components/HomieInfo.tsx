@@ -3,7 +3,7 @@ import { h, FunctionalComponent } from "preact";
 import { IHomieDeviceInfo } from "../../../utils/HomieDevice";
 import { Text } from "../../../components/ui";
 import { Grid, Row, Column } from "../../../components/ui/grid";
-import { BadgeLable, BadgeList, Badge } from "../../../components/ui/badge";
+import { BadgeLabel, BadgeList, Badge } from "../../../components/ui/badge";
 
 
 interface IProps {
@@ -19,13 +19,13 @@ const HomieInfo: FunctionalComponent<IProps> = (props: IProps) => {
         <Row alignments={{ center: "xs", around: "xs" }}>
           <Column>
             <BadgeList>
-              <BadgeLable lable="Hardware ID" value={homieInfo.hardware_device_id} />
-              <BadgeLable lable="Homie Version" value={homieInfo.homie_version} />
-              <BadgeLable lable="Homie ESP8266 Version" value={homieInfo.homie_esp8266_version} />
-              <BadgeLable lable="Configuration State" value={homieInfo.device_config_state ? "Okay" : "Error"} />
+              <BadgeLabel label="Hardware ID" value={homieInfo.hardware_device_id} />
+              <BadgeLabel label="Homie Version" value={homieInfo.homie_version} />
+              <BadgeLabel label="Homie ESP8266 Version" value={homieInfo.homie_esp8266_version} />
+              <BadgeLabel label="Configuration State" value={homieInfo.device_config_state ? "Okay" : "Error"} />
               <BadgeList label="Firmware">
-                <BadgeLable lable="Name" value={homieInfo.firmware.name} />
-                <BadgeLable lable="Version" value={homieInfo.firmware.version} />
+                <BadgeLabel label="Name" value={homieInfo.firmware.name} />
+                <BadgeLabel label="Version" value={homieInfo.firmware.version} />
               </BadgeList>
             </BadgeList>
           </Column>
@@ -35,7 +35,7 @@ const HomieInfo: FunctionalComponent<IProps> = (props: IProps) => {
             <Text text="Nodes" size="medium" />
             {homieInfo.nodes.map(node => {
               return (
-                <BadgeLable lable={node.id} value={node.type} />
+                <BadgeLabel label={node.id} value={node.type} />
               );
             })}
           </Column>

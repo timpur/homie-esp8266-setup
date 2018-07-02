@@ -1,9 +1,10 @@
 export interface ICommonFormProps<T> {
   id: string;
   label?: string;
-  placeholder?: string;
+  placeHolder?: string;
   value: T;
   onChange: (value: T) => void;
+  disable?: boolean;
   required?: boolean;
   pattern?: string;
   collapse?: boolean;
@@ -16,7 +17,8 @@ export function buildCommonFormClasses<T>(props: ICommonFormProps<T>) {
   return [
     props.fullWidth ? "full-width" : null,
     props.collapse ? "item" : null,
-    props.inError ? "error" : null
+    props.inError ? "error" : null,
+    props.disable ? "disable" : null
   ]
     .filter(item => !!item)
     .join(" ");

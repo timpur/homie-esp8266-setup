@@ -20,7 +20,14 @@ abstract class BaseValidation<TProps, TState> extends Component<TProps & IProps,
     return false;
   }
 
+  componentDidMount() {
+    this.checkComponentError();
+  }
   componentDidUpdate() {
+    this.checkComponentError();
+  }
+
+  checkComponentError() {
     const inError = this.inError;
     if (inError !== this.previouslyInError) {
       this.previouslyInError = inError;
@@ -28,7 +35,7 @@ abstract class BaseValidation<TProps, TState> extends Component<TProps & IProps,
     }
   }
 
-  isChildInerror(index: number) {
+  isChildInError(index: number) {
     if (this.base) {
       const inputs = this.inputs;
       if (index < inputs.length) return !this.inputs[index].checkValidity();
@@ -37,7 +44,7 @@ abstract class BaseValidation<TProps, TState> extends Component<TProps & IProps,
   }
 
   updateChildrenInError(children: Array<Child>) {
-    children.forEach((child, index) => child.attributes.inError = this.isChildInerror(index));
+    children.forEach((child, index) => child.attributes.inError = this.isChildInError(index));
   }
 }
 

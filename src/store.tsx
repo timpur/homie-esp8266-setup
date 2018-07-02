@@ -10,7 +10,7 @@ export interface IStoreState extends Object {
   homieData: IHomieData;
   formData: {
     wifiManualSSID?: boolean;
-    wifiAditionalOptions?: boolean;
+    wifiAdditionalOptions?: boolean;
   };
   wifiFormData: IHomieDeviceConfig["wifi"];
   mqttFormData: IHomieDeviceConfig["mqtt"];
@@ -24,7 +24,7 @@ export interface IStoreState extends Object {
 }
 export type TStore = Store<IStoreState>;
 
-const initalState: IStoreState = {
+const initialState: IStoreState = {
   activeTabID: "",
   homieData: {
     url: "http://localhost:3000",// "http://192.168.123.1",
@@ -48,7 +48,7 @@ const initalState: IStoreState = {
   }
 };
 
-export const store: TStore = devtools(createStore(initalState));
+export const store: TStore = devtools(createStore(initialState));
 
 import App from "./App";
 export default () => (

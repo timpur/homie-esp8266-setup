@@ -6,7 +6,7 @@ import { TStore } from "../../store";
 import { PageComponent, IPageProps } from "../../components/PageComponent";
 import { HomieDevice, IHomieData } from "../../utils/HomieDevice";
 import { Loading } from "../../components/ui";
-import { BadgeLable } from "../../components/ui/badge";
+import { BadgeLabel } from "../../components/ui/badge";
 
 
 interface IProps extends IPageProps {
@@ -48,8 +48,8 @@ class IntroPage extends PageComponent<IProps, IState> {
     return (
       <div>
         <Loading show={!this.homieDevice.status} typeBar />
-        <BadgeLable
-          lable="Device Status"
+        <BadgeLabel
+          label="Device Status"
           value={this.homieDevice.status ? "Online" : "Offline"}
           valueColour={this.homieDevice.status ? "success" : "error"}
         />

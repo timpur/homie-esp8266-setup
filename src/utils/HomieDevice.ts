@@ -152,7 +152,7 @@ export class HomieDevice {
     const checkForDevice = async () => {
       const status = await this.heatBeat();
       if (status) return;
-      else checkForDevice();
+      else setTimeout(async () => await checkForDevice(), 5000);
     };
     await checkForDevice();
   }
